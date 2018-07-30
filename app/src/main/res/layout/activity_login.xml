@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".LoginActivity">
+
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/varsity_logo"
+        android:scaleType="centerInside"
+        android:padding="5dp"
+        />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="12dp"
+        >
+        <RadioButton
+            android:id="@+id/radioBtn_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="Teacher"
+            />
+        <RadioButton
+            android:id="@+id/radioBtn_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="Student"
+            />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/edtTxt_login_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/edtTxt_login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:text="Login" />
+
+    <TextView
+        android:id="@+id/txtVw_or"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="or" />
+
+    <TextView
+        android:id="@+id/txtVw_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:text="Sign up" />
+
+
+</LinearLayout>

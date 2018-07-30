@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".RegisterActivity">
+
+    <EditText
+        android:id="@+id/edtTxt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/edtTxt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/edtTxt_register_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="Regiter no."
+        android:inputType="number" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtTxt_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:layout_margin="12dp"
+            android:hint="year"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/edtTxt_semester"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:layout_margin="12dp"
+            android:hint="semester"
+            android:inputType="number" />
+    </LinearLayout>
+
+
+
+    <EditText
+        android:id="@+id/edtTxt_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/edtTxt_confirm_passsword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:hint="confirm password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:text="Save" />
+
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Schedule</string>
+
+    <string-array name="nameOfDayOfWeek">
+        <item>Saturday</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thusday</item>
+    </string-array>
+
+    <string-array name="batch_name">
+        <item>1/1A</item>
+        <item>1/1B</item>
+        <item>1/2A</item>
+        <item>1/2B</item>
+        <item>2/1A</item>
+        <item>2/1B</item>
+        <item>2/2A</item>
+        <item>2/2B</item>
+        <item>3/1</item>
+        <item>3/2</item>
+        <item>4/1</item>
+        <item>4/2</item>
+
+    </string-array>
+
+</resources>
