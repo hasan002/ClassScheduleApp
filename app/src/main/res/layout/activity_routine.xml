@@ -43,19 +43,20 @@
         android:layout_marginTop="8dp"
         android:padding="8dp">
 
-        <Spinner
+        <org.angmarch.views.NiceSpinner
             android:id="@+id/dayOfWeek"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:textAlignment="center"
-            android:layout_weight="1" />
-
-        <Spinner
+            android:layout_weight="1"/>
+        <org.angmarch.views.NiceSpinner
             android:id="@+id/batch"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:textAlignment="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <LinearLayout

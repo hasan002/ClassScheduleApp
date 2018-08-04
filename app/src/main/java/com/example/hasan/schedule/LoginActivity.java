@@ -4,30 +4,37 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hasan.schedule.models.StudentModel;
 import com.example.hasan.schedule.routine.RoutineActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private int radioId;
+    private int radioId = -1;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
 
     private DatabaseReference databaseReference;
+    private DatabaseReference dbChildReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         button_login = findViewById(R.id.btn_login);
 
         radioGroup = findViewById(R.id.radioGroup);
-
+        radioButton = findViewById(R.id.radioBtn_student);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -55,6 +62,11 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null) {
             Intent intent = new Intent(LoginActivity.this, RoutineActivity.class);
             intent.putExtra("user_name", user.getDisplayName());
+            intent.putExtra("user_id",user.getUid());
+
+            Log.d("user_name",user.getDisplayName());
+            Log.d("user_id",user.getUid());
+
             startActivity(intent);
             finish();
         }
@@ -62,12 +74,12 @@ public class LoginActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.radioBtn_teacher:
                         radioId = 0;
                         break;
                     case R.id.radioBtn_student:
-                        radioId= 1;
+                        radioId = 1;
                         break;
                 }
             }
@@ -80,29 +92,45 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = editText_name.getText().toString().trim();
                 String password = edit_Text_password.getText().toString().trim();
+                if (email.isEmpty()) {
+
+                    editText_name.setError("Enter your email address.");
+
+                } else if (password.isEmpty()) {
+                    edit_Text_password.setError("Enter your password.");
+                } else if (radioId == -1) {
+                    radioButton.setError("Choose one from teacher/Student");
+                } else {
+
+                    firebaseAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+
+                                        FirebaseUser user = firebaseAuth.getCurrentUser();
 
 
-                firebaseAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                                        if (user != null) {
 
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                            final Intent intent = new Intent(LoginActivity.this, RoutineActivity.class);
+                                            intent.putExtra("user_name", user.getDisplayName());
+                                            intent.putExtra("user_id",user.getUid());
 
-                                    if (user != null) {
+                                            Log.d("user_name",user.getDisplayName());
+                                            Log.d("user_id",user.getUid());
 
-                                        Intent intent = new Intent(LoginActivity.this, RoutineActivity.class);
-                                        intent.putExtra("user_name", user.getDisplayName());
-                                        startActivity(intent);
+                                            startActivity(intent);
+
+                                        }
+
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "" + task.getException(),
+                                                Toast.LENGTH_SHORT).show();
                                     }
-
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "" + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
                                 }
-                            }
-                        });
+                            });
+                }
             }
         });
 
@@ -121,5 +149,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textView_signup;
     private Button button_login;
     private RadioGroup radioGroup;
+    private RadioButton radioButton;
 
 }

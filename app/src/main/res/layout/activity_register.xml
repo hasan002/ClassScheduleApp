@@ -59,6 +59,15 @@
             android:layout_margin="12dp"
             android:hint="semester"
             android:inputType="number" />
+        <EditText
+            android:id="@+id/edtTxt_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:layout_margin="12dp"
+            android:hint="section"
+            android:inputType="textPersonName" />
     </LinearLayout>
 
 
