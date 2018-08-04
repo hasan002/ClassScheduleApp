@@ -55,8 +55,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
     private String year;
     private String semester;
     private String section;
-    private String userBatchId;
-
+    private int userBatchId;
 
 
     private FirebaseDatabase firebaseDatabase;
@@ -73,8 +72,8 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
             userName = getIntent().getStringExtra("user_name");
             userId = getIntent().getStringExtra("user_id");
 
-            Log.d("user_name",userName);
-            Log.d("user_id",userId);
+            Log.d("user_name", userName);
+            Log.d("user_id", userId);
 
         }
 
@@ -105,56 +104,8 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
             dayId = dayOfWeek % 6;
         }
 
-//        firebaseDatabase = FirebaseDatabase.getInstance();
-//        dbChildReference = firebaseDatabase.getReference();
-//        dbChildReference.child("students").child(userId)
-//                .addValueEventListener(new ValueEventListener() {
-//
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        Log.d("Student", dataSnapshot.toString());
-//
-//                        StudentModel studentModel = dataSnapshot.getValue(StudentModel.class);
-//
-//                        if (studentModel != null) {
-//
-//                            dashRegTextView.setText(studentModel.getRegisterNo());
-//                            year = Integer.parseInt(studentModel.getYear());
-//                            semester = Integer.parseInt(studentModel.getSemester());
-//
-//                            Log.d("year",String.valueOf(year));
-//
-//                            if(year<3){
-//
-//                                section = studentModel.getSection();
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                        Log.d("OnCancelled", databaseError.getMessage());
-//                    }
-//                });
 
-//        if(Integer.parseInt(year)<3){
-//
-//            int x=1;
-//
-//            if(section.equals("A")){
-//                x=2;
-//            }
-//
-//
-///           userBatchId = 4*Integer.parseInt(year) + 2*Integer.parseInt(semester) - 3 - x;
-//        }
-//        else {
-//            userBatchId = 2*Integer.parseInt(year) + Integer.parseInt(semester) + 2;
-//        }
-//
-//        batchId =userBatchId;
-
+        Log.d("batchId",String.valueOf(batchId));
 
         ArrayList<String> dayList = new ArrayList<>();
 
@@ -178,7 +129,6 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         List<String> listBatchName = new LinkedList<>(Arrays.asList("1/1A", "1/1B", "1/2A", "1/2B",
                 "2/1A", "2/1B", "2/2A", "2/2B", "3/1", "3/2", "4/1", "4/2"));
         spinnerBatchId.attachDataSource(listBatchName);
-        spinnerBatchId.setSelectedIndex(batchId - 1);
         spinnerBatchId.setOnItemSelectedListener(this);
 
         recyclerView.setHasFixedSize(true);
@@ -188,9 +138,70 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
+        getUserData();
+    }
 
-        getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
+    private int getUserBatchId() {
 
+        if (section.equals("C")) {
+
+            return 2 * Integer.parseInt(year) + Integer.parseInt(semester) + 2;
+
+        } else {
+
+            int x = 1;
+
+            if (section.equals("A")) {
+                x = 2;
+            }
+
+            return 4 * Integer.parseInt(year) + 2 * Integer.parseInt(semester) - 3 - x;
+        }
+    }
+
+    private void getUserData() {
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        dbChildReference = firebaseDatabase.getReference();
+        dbChildReference.child("students").child(userId)
+                .addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        Log.d("Student", dataSnapshot.toString());
+
+                        StudentModel studentModel = dataSnapshot.getValue(StudentModel.class);
+
+                        if (studentModel != null) {
+
+                            registerNo = studentModel.getRegisterNo();
+                            year = studentModel.getYear();
+                            semester = studentModel.getSemester();
+                            section = studentModel.getSection();
+
+                            Log.d("reg ",registerNo);
+                            Log.d("year",year);
+                            Log.d("semester",semester);
+                            Log.d("section",section);
+
+                            userBatchId = getUserBatchId();
+                            batchId = userBatchId;
+                            spinnerBatchId.setSelectedIndex(batchId - 1);
+
+                            Log.d("userBatchId",String.valueOf(userBatchId));
+
+                            dashRegTextView.setText(registerNo);
+
+                            getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.d("OnCancelled", databaseError.getMessage());
+                    }
+                });
     }
 
 
