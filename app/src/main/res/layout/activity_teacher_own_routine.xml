@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".routine.RoutineActivity"
+    tools:context=".TeacherOwnRoutine"
     android:padding="12dp">
 
+
     <LinearLayout
-        android:id="@+id/details_layout"
+        android:id="@+id/wtc_details_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/dashboard_name"
+            android:id="@+id/wtc_dashboard_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Full Name"
@@ -26,92 +27,101 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/dashboard_reg"
+            android:id="@+id/wtc_dashboard_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2014331001"
+            android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/wtc_dashboard_dept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dept. of CSE, SUST"
             android:textSize="18sp"/>
 
     </LinearLayout>
+    <Button
+        android:id="@+id/btn_std_routine"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:layout_below="@+id/wtc_details_layout"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:text="All Routines"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_border_style"
+        />
 
     <LinearLayout
-        android:id="@+id/option_layout"
+        android:id="@+id/wtc_option_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/details_layout"
-        android:layout_marginTop="8dp"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:layout_below="@+id/btn_std_routine">
 
         <org.angmarch.views.NiceSpinner
-            android:id="@+id/dayOfWeek"
+            android:id="@+id/wtc_dayOfWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="5dp"
             android:textAlignment="center"
-            android:layout_weight="1"
-        android:background="@drawable/border_style"
+
             />
-        <org.angmarch.views.NiceSpinner
-            android:id="@+id/batch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:textAlignment="center"
-            android:layout_weight="1"
-            android:background="@drawable/border_style"
-            />
+
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/list_layout"
+        android:id="@+id/wtc_list_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/option_layout"
+        android:layout_below="@+id/wtc_option_layout"
         android:background="@drawable/routine_border_style"
         android:padding="8dp"
 
         >
 
         <TextView
-            android:id="@+id/item_time_text"
+            android:id="@+id/wtc_item_time_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.97"
             android:text="Time(24h)"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#ffffff"
             android:padding="4dp"
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/item_c_code_text"
+            android:id="@+id/wtc_item_c_code_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#ffffff"
             android:gravity="center"
             android:padding="4dp"
             android:text="Course Code"/>
 
         <TextView
-            android:id="@+id/item_t_code_text"
+            android:id="@+id/wtc_item_t_code_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#ffffff"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Teacher Code"/>
+            android:text="Batch"/>
         <TextView
-            android:id="@+id/item_status_text"
+            android:id="@+id/wtc_item_status_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#ffffff"
             android:gravity="center"
             android:padding="4dp"
@@ -122,11 +132,11 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/routine_recyclerview"
+        android:id="@+id/wtc_routine_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/list_layout"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/wtc_list_layout"
         android:layout_centerHorizontal="true"
         android:padding="8dp"
         android:scrollbars="vertical" />

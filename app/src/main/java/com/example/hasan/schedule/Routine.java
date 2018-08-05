@@ -7,6 +7,7 @@ public class Routine {
     private String courceCode;
     private String statusId;
     private String time;
+    private String batchId;
 
     public String getRoutineId() {
         return routineId;
@@ -47,4 +48,8 @@ public class Routine {
     public void setTime(String time) {
         this.time = time;
     }
+
+    public String getBatchId() { return batchId; }
+
+    public void setBatchId(String batchId) { this.batchId = batchId; }
 }

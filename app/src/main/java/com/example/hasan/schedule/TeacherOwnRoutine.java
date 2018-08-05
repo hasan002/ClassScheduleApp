@@ -1,4 +1,4 @@
-package com.example.hasan.schedule.routine;
+package com.example.hasan.schedule;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,14 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.hasan.schedule.R;
-import com.example.hasan.schedule.Routine;
+import com.example.hasan.schedule.models.BatchModel;
 import com.example.hasan.schedule.models.CourseModel;
 import com.example.hasan.schedule.models.RoutineModel;
-import com.example.hasan.schedule.models.StudentModel;
+import com.example.hasan.schedule.models.TeacherDataModel;
 import com.example.hasan.schedule.models.TeacherModel;
+import com.example.hasan.schedule.routine.RoutineListAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,13 +29,12 @@ import com.google.firebase.database.ValueEventListener;
 import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RoutineActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class TeacherOwnRoutine extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private List<Routine> routineList;
 
@@ -45,18 +45,15 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
     private NiceSpinner spinnerDayId;
     private NiceSpinner spinnerBatchId;
 
-    private int batchId = 12;
+    private int batchId = 1;
     private int dayOfWeek;
     private int dayId;
 
-    private String userId;
-    private String userName;
-    private String registerNo;
-    private String year;
-    private String semester;
-    private String section;
-    private int userBatchId;
+    Button button_stdRoutine;
 
+    private String userName;
+    private String teacherTitle;
+    private String teacherId;
 
     private FirebaseDatabase firebaseDatabase;
 
@@ -66,28 +63,32 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routine);
-
-        if (getIntent() != null) {
-            userName = getIntent().getStringExtra("user_name");
-            userId = getIntent().getStringExtra("user_id");
-
-            Log.d("user_name", userName);
-            Log.d("user_id", userId);
-
-        }
+        setContentView(R.layout.activity_teacher_own_routine);
 
 
-        dashNameTextView = findViewById(R.id.dashboard_name);
-        dashRegTextView = findViewById(R.id.dashboard_reg);
+        dashNameTextView = findViewById(R.id.wtc_dashboard_name);
+        dashRegTextView = findViewById(R.id.wtc_dashboard_reg);
+         button_stdRoutine = findViewById(R.id.btn_std_routine);
 
-        recyclerView = findViewById(R.id.routine_recyclerview);
+        recyclerView = findViewById(R.id.wtc_routine_recyclerview);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        routineList = new ArrayList<>();
 
-        dashNameTextView.setText(userName);
+        if (getIntent() != null) {
+
+            userName = getIntent().getStringExtra("userName");
+            teacherId = getIntent().getStringExtra("teacherId");
+            teacherTitle = getIntent().getStringExtra("teacherTitle");
+
+            dashNameTextView.setText(userName);
+            dashRegTextView.setText(teacherTitle);
+
+
+
+        }
+
+        routineList = new ArrayList<>();
 
 
         Date date = new Date();
@@ -104,8 +105,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
             dayId = dayOfWeek % 6;
         }
 
-
-        Log.d("batchId",String.valueOf(batchId));
+        //        Log.d("batchId", String.valueOf(batchId));
 
         ArrayList<String> dayList = new ArrayList<>();
 
@@ -118,130 +118,59 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         dayList.add("Thusday");
 
         //for dayofweek
-        spinnerDayId = findViewById(R.id.dayOfWeek);
+        spinnerDayId = findViewById(R.id.wtc_dayOfWeek);
         List<String> listDayId = new LinkedList<>(dayList);
         spinnerDayId.attachDataSource(listDayId);
         spinnerDayId.setSelectedIndex(dayId);
         spinnerDayId.setOnItemSelectedListener(this);
 
-        //for batch
-        spinnerBatchId = findViewById(R.id.batch);
-        List<String> listBatchName = new LinkedList<>(Arrays.asList("1/1A", "1/1B", "1/2A", "1/2B",
-                "2/1A", "2/1B", "2/2A", "2/2B", "3/1", "3/2", "4/1", "4/2"));
-        spinnerBatchId.attachDataSource(listBatchName);
-        spinnerBatchId.setOnItemSelectedListener(this);
+//        //for batch
+//        ArrayList<String> batchList = new ArrayList<>();
+//
+//        batchList.add("1/1A");
+//        batchList.add("1/1B");
+//        batchList.add("1/2A");
+//        batchList.add("1/2B");
+//        batchList.add("2/1A");
+//        batchList.add("2/1B");
+//        batchList.add("2/2A");
+//        batchList.add("2/2B");
+//        batchList.add("3/1");
+//        batchList.add("3/2");
+//        batchList.add("4/1");
+//        batchList.add("4/2");
+//
+//
+//        spinnerBatchId = findViewById(R.id.wtc_batch);
+//        List<String> listBatchName = new LinkedList<>(batchList);
+//        spinnerBatchId.attachDataSource(listBatchName);
+//        spinnerBatchId.setSelectedIndex(batchId - 1);
+//        spinnerBatchId.setOnItemSelectedListener(this);
+
+        button_stdRoutine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(RoutineActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(TeacherOwnRoutine.this));
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
-        getUserData();
+        getListFromFirebase(String.valueOf(dayId));
     }
 
-    private int getUserBatchId() {
-
-        if (section.equals("C")) {
-
-            return 2 * Integer.parseInt(year) + Integer.parseInt(semester) + 2;
-
-        } else {
-
-            int x=0;
-
-            if (section.equals("A")) {
-
-                x = 2;
-            } else if(section.equals("B")){
-
-                x = 1;
-            }
-
-            return 4 * Integer.parseInt(year) + 2 * Integer.parseInt(semester) - 3 - x;
-        }
-    }
-
-    private void getUserData() {
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        dbChildReference = firebaseDatabase.getReference();
-        dbChildReference.child("students").child(userId)
-                .addValueEventListener(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        Log.d("Student", dataSnapshot.toString());
-
-                        StudentModel studentModel = dataSnapshot.getValue(StudentModel.class);
-
-                        if (studentModel != null) {
-
-                            registerNo = studentModel.getRegisterNo();
-                            year = studentModel.getYear();
-                            semester = studentModel.getSemester();
-                            section = studentModel.getSection();
-
-                            Log.d("reg ",registerNo);
-                            Log.d("year",year);
-                            Log.d("semester",semester);
-                            Log.d("section",section);
-
-                            userBatchId = getUserBatchId();
-                            batchId = userBatchId;
-                            spinnerBatchId.setSelectedIndex(batchId - 1);
-
-                            Log.d("userBatchId",String.valueOf(userBatchId));
-
-                            dashRegTextView.setText(registerNo);
-
-                            getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("OnCancelled", databaseError.getMessage());
-                    }
-                });
-    }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        switch (parent.getId()) {
-            case R.id.dayOfWeek:
-                dayId = position;
-                break;
-
-            case R.id.batch:
-                batchId = position + 1;
-                break;
-        }
-
-        Log.d("DayID", String.valueOf(dayId));
-        Log.d("BatchId", String.valueOf(batchId));
-
-        routineList.clear();
-        routineListAdapter = new RoutineListAdapter(RoutineActivity.this, routineList);
-        recyclerView.setAdapter(routineListAdapter);
-
-        getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
-
-
-    }
-
-
-    private void getListFromFirebase(String batchId, String dayId) {
+    private void getListFromFirebase(String dayId) {
 
         routineList = new ArrayList<>();
         databaseReference = firebaseDatabase.getReference("routine");
         Query queryReference = databaseReference
-                .orderByChild("batch_day_id")
-                .equalTo(String.valueOf(batchId + "_" + dayId));
+                .orderByChild("teacher_day_id")
+                .equalTo(String.valueOf(teacherId + "_" + dayId));
 
         queryReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -256,7 +185,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
                     routine.setStatusId(routineModel.getStatusId());
                     routine.setTime(routineModel.getTime());
                     routine.setCourceCode(routineModel.getCourceId());
-                    routine.setTchrCode(routineModel.getTchrId());
+                    routine.setTchrCode(routineModel.getBatchId());
 
 
                     int courseNode = Integer.parseInt(routineModel.getCourceId());
@@ -274,10 +203,10 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
                                     if (courseModel != null) {
                                         routine.setCourceCode(courseModel.getCourseCode());
 
-                                        int teacherNode = Integer.parseInt(routineModel.getTchrId());
+                                        int batchNode = Integer.parseInt(routineModel.getBatchId());
 
                                         dbChildReference = firebaseDatabase.getReference();
-                                        dbChildReference.child("teacher").child(String.valueOf(teacherNode - 1))
+                                        dbChildReference.child("batch").child(String.valueOf(batchNode - 1))
                                                 .addValueEventListener(new ValueEventListener() {
 
                                                     @Override
@@ -285,15 +214,21 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
 
                                                         Log.d("Teacher", dataSnapshot.toString());
 
-                                                        TeacherModel teacherModel = dataSnapshot.getValue(TeacherModel.class);
+                                                        BatchModel batchModel = dataSnapshot.getValue(BatchModel.class);
 
-                                                        if (teacherModel != null) {
-                                                            routine.setTchrCode(teacherModel.getNickName());
+                                                        if (batchModel != null) {
+                                                            String year =batchModel.getBatchYear();
+                                                            String batchId = year+"/"+batchModel.getBatchSemester();
+
+                                                            if(Integer.parseInt(year)<3)
+                                                                batchId = batchId + batchModel.getBatchSection();
+
+                                                            routine.setTchrCode(batchId);
 
                                                             routineList.add(routine);
 
                                                             routineListAdapter = new RoutineListAdapter(
-                                                                    RoutineActivity.this, routineList);
+                                                                    TeacherOwnRoutine.this, routineList);
                                                             recyclerView.setAdapter(routineListAdapter);
                                                         }
                                                     }
@@ -336,11 +271,38 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         });
     }
 
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+//        switch (parent.getId()) {
+//            case R.id.wtc_dayOfWeek:
+//                dayId = position;
+//                break;
+//
+//            case R.id.wtc_batch:
+//                batchId = position + 1;
+//                break;
+//        }
+        dayId = position;
+
+        Log.d("DayID", String.valueOf(dayId));
+//        Log.d("BatchId", String.valueOf(batchId));
+
+        routineList.clear();
+        routineListAdapter = new RoutineListAdapter(TeacherOwnRoutine.this, routineList);
+        recyclerView.setAdapter(routineListAdapter);
+
+        getListFromFirebase(String.valueOf(dayId));
+
+
+    }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
     private TextView dashNameTextView;
     private TextView dashRegTextView;

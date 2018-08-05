@@ -33,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
 
-    private DatabaseReference databaseReference;
-    private DatabaseReference dbChildReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +51,6 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-
-        databaseReference = firebaseDatabase.getReference();
-
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -90,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = editText_name.getText().toString().trim();
+                final String email = editText_name.getText().toString().trim();
                 String password = edit_Text_password.getText().toString().trim();
                 if (email.isEmpty()) {
 
@@ -113,14 +108,30 @@ public class LoginActivity extends AppCompatActivity {
 
                                         if (user != null) {
 
-                                            final Intent intent = new Intent(LoginActivity.this, RoutineActivity.class);
-                                            intent.putExtra("user_name", user.getDisplayName());
-                                            intent.putExtra("user_id",user.getUid());
+                                            if(email.equals("post2enam@gmail.com")){
 
-                                            Log.d("user_name",user.getDisplayName());
-                                            Log.d("user_id",user.getUid());
+                                                Log.d("teacher","teacherIntent");
 
-                                            startActivity(intent);
+                                                final Intent intent = new Intent(LoginActivity.this, TeacherRoutineActivity.class);
+                                                intent.putExtra("user_id",user.getUid());
+
+                                                Log.d("user_id",user.getUid());
+
+                                                startActivity(intent);
+                                            }else {
+
+                                                Log.d("student","studentIntent");
+
+                                                final Intent intent = new Intent(LoginActivity.this, RoutineActivity.class);
+                                                intent.putExtra("user_name", user.getDisplayName());
+                                                intent.putExtra("user_id",user.getUid());
+
+                                                Log.d("user_name",user.getDisplayName());
+                                                Log.d("user_id",user.getUid());
+
+                                                startActivity(intent);
+                                            }
+
 
                                         }
 

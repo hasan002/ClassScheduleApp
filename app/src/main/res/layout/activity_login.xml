@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+
+    >
 
 
     <ImageView
@@ -15,6 +17,7 @@
         android:src="@drawable/varsity_logo"
         android:scaleType="centerInside"
         android:padding="5dp"
+
         />
 
     <RadioGroup
@@ -24,6 +27,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:padding="12dp"
+
         >
         <RadioButton
             android:id="@+id/radioBtn_teacher"
@@ -32,6 +36,7 @@
             android:layout_weight="1"
             android:textSize="20sp"
             android:text="Teacher"
+
             />
         <RadioButton
             android:id="@+id/radioBtn_student"
@@ -40,6 +45,7 @@
             android:layout_weight="1"
             android:textSize="20sp"
             android:text="Student"
+
             />
     </RadioGroup>
 
@@ -49,8 +55,9 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_margin="12dp"
-        android:hint="Name"
-        android:inputType="textPersonName" />
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:background="@drawable/border_style"/>
 
     <EditText
         android:id="@+id/edtTxt_login_password"
@@ -59,7 +66,8 @@
         android:padding="8dp"
         android:layout_margin="12dp"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:background="@drawable/border_style"/>
 
     <Button
         android:id="@+id/btn_login"
@@ -69,7 +77,10 @@
         android:layout_margin="12dp"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_border_style"
+        />
 
     <TextView
         android:id="@+id/txtVw_or"
@@ -84,7 +95,8 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"
-        android:text="Sign up" />
+        android:text="Sign up"
+       />
 
 
 </LinearLayout>

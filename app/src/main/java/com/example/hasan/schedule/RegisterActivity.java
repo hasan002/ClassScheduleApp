@@ -89,11 +89,19 @@ public class RegisterActivity extends AppCompatActivity {
 
                     editText_year.setError("Please enter your year.");
 
-                } else if (semester.isEmpty()) {
+                } else if (Integer.parseInt(year)>4) {
+
+                    editText_year.setError("Enter value less than 5.");
+
+                }else if (semester.isEmpty()) {
 
                     editText_semester.setError("Please enter your semester.");
 
-                } else if (password.isEmpty()) {
+                } else if (Integer.parseInt(semester)>2) {
+
+                    editText_year.setError("Enter value 1 or 2.");
+
+                }else if (password.isEmpty()) {
 
                     editText_password.setError("Please enter a password");
 

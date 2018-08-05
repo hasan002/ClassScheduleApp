@@ -17,7 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".routine.RoutineActivity"></activity>
+        <activity android:name=".routine.RoutineActivity" />
+        <activity android:name=".TeacherRoutineActivity" />
+        <activity android:name=".TeacherOwnRoutine"></activity>
     </application>
 
 </manifest>
