@@ -40,6 +40,8 @@ public class RoutineListAdapter extends RecyclerView.Adapter<RoutineListAdapter.
         holder.courseCodeTextView.setText(routine.getCourceCode());
         holder.teacherCodeTextView.setText(routine.getTchrCode());
         holder.statusTextView.setText(routine.getStatusId());
+
+
     }
 
     @Override

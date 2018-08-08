@@ -1,18 +1,22 @@
-package com.example.hasan.schedule;
+package com.example.hasan.schedule.TeacherActivity;
 
-import android.content.Intent;
+
+import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.hasan.schedule.R;
+import com.example.hasan.schedule.Routine;
 import com.example.hasan.schedule.models.CourseModel;
 import com.example.hasan.schedule.models.RoutineModel;
 import com.example.hasan.schedule.models.TeacherDataModel;
@@ -34,7 +38,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TeacherRoutineActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class AllRoutineFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     private List<Routine> routineList;
 
@@ -50,40 +58,45 @@ public class TeacherRoutineActivity extends AppCompatActivity implements Adapter
     private int dayId;
 
     private String userId;
-    private String userName;
-    private String teacherTitle;
-    private String teacherId;
 
-    Button button_ownRoutine;
+
+    private Context context;
 
     private FirebaseDatabase firebaseDatabase;
 
     private DatabaseReference databaseReference;
     private DatabaseReference dbChildReference;
 
+    public AllRoutineFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teacher_routine);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        if (getIntent() != null) {
+        // Inflate the layout for this fragment
 
-            userId = getIntent().getStringExtra("user_id");
+        return inflater.inflate(R.layout.fragment_all_routine, container, false);
+    }
 
-            Log.d("user_id", userId);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        }
+        context = view.getContext();
 
-        dashNameTextView = findViewById(R.id.tc_dashboard_name);
-        dashRegTextView = findViewById(R.id.tc_dashboard_reg);
-        button_ownRoutine = findViewById(R.id.btn_own_routine);
 
-        recyclerView = findViewById(R.id.tc_routine_recyclerview);
-        linearLayoutManager = new LinearLayoutManager(this);
+        userId = getArguments().getString("user_id");
+
+
+
+        recyclerView = view.findViewById(R.id.tc_routine_recyclerview);
+        linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         routineList = new ArrayList<>();
-
 
         Date date = new Date();
         //Log.d("date", String.valueOf(date));
@@ -99,7 +112,7 @@ public class TeacherRoutineActivity extends AppCompatActivity implements Adapter
             dayId = dayOfWeek % 6;
         }
 
-//        Log.d("batchId", String.valueOf(batchId));
+        //        Log.d("batchId", String.valueOf(batchId));
 
         ArrayList<String> dayList = new ArrayList<>();
 
@@ -112,7 +125,7 @@ public class TeacherRoutineActivity extends AppCompatActivity implements Adapter
         dayList.add("Thusday");
 
         //for dayofweek
-        spinnerDayId = findViewById(R.id.tc_dayOfWeek);
+        spinnerDayId = view.findViewById(R.id.tc_dayOfWeek);
         List<String> listDayId = new LinkedList<>(dayList);
         spinnerDayId.attachDataSource(listDayId);
         spinnerDayId.setSelectedIndex(dayId);
@@ -135,103 +148,25 @@ public class TeacherRoutineActivity extends AppCompatActivity implements Adapter
         batchList.add("4/2");
 
 
-        spinnerBatchId = findViewById(R.id.tc_batch);
+        spinnerBatchId = view.findViewById(R.id.tc_batch);
         List<String> listBatchName = new LinkedList<>(batchList);
         spinnerBatchId.attachDataSource(listBatchName);
         spinnerBatchId.setSelectedIndex(batchId - 1);
         spinnerBatchId.setOnItemSelectedListener(this);
 
-        button_ownRoutine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TeacherRoutineActivity.this, TeacherOwnRoutine.class);
-
-                intent.putExtra("userName",userName);
-                intent.putExtra("teacherId",teacherId);
-                intent.putExtra("teacherTitle",teacherTitle);
-
-                startActivity(intent);
-            }
-        });
-
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(TeacherRoutineActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
-        getTeacherData();
 
         getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
 
     }
 
 
-    private void getTeacherData() {
-
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        dbChildReference = firebaseDatabase.getReference();
-        dbChildReference.child("teacherData").child(userId)
-                .addValueEventListener(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        Log.d("teacherData", dataSnapshot.toString());
-
-                        TeacherDataModel teacherDataModel = dataSnapshot.getValue(TeacherDataModel.class);
-
-                        if (teacherDataModel != null) {
-
-                            teacherId = teacherDataModel.getTchrId();
-                            int teacherNode = Integer.parseInt(teacherId)-1;
-
-                            Log.d("tchrId ", teacherId);
-
-                            dbChildReference.child("teacher").child(String .valueOf(teacherNode))
-                                    .addValueEventListener(new ValueEventListener() {
-
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                            Log.d("teacher", dataSnapshot.toString());
-
-                                            TeacherModel teacherModel = dataSnapshot.getValue(TeacherModel.class);
-
-                                            if (teacherModel != null) {
-
-                                                teacherTitle = teacherModel.getTchrTitle();
-                                                userName = teacherModel.getTchrName();
-
-                                                dashNameTextView.setText(userName);
-                                                dashRegTextView.setText(teacherTitle);
-
-                                                Log.d("tchr_title ", teacherTitle);
-                                                Log.d("tchr_name ", userName);
-
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Log.d("OnCancelled"," teacher :"+ databaseError.getMessage());
-                                        }
-                                    });
-
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("OnCancelled"," teacherData :"+ databaseError.getMessage());
-                    }
-                });
-
-
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -250,13 +185,14 @@ public class TeacherRoutineActivity extends AppCompatActivity implements Adapter
         Log.d("BatchId", String.valueOf(batchId));
 
         routineList.clear();
-        routineListAdapter = new RoutineListAdapter(TeacherRoutineActivity.this, routineList);
+        routineListAdapter = new RoutineListAdapter(context, routineList);
         recyclerView.setAdapter(routineListAdapter);
 
         getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
 
 
     }
+
 
     private void getListFromFirebase(String batchId, String dayId) {
 
@@ -315,8 +251,7 @@ public class TeacherRoutineActivity extends AppCompatActivity implements Adapter
 
                                                             routineList.add(routine);
 
-                                                            routineListAdapter = new RoutineListAdapter(
-                                                                    TeacherRoutineActivity.this, routineList);
+                                                            routineListAdapter = new RoutineListAdapter(context, routineList);
                                                             recyclerView.setAdapter(routineListAdapter);
                                                         }
                                                     }
@@ -365,6 +300,5 @@ public class TeacherRoutineActivity extends AppCompatActivity implements Adapter
     }
 
 
-    private TextView dashNameTextView;
-    private TextView dashRegTextView;
+
 }

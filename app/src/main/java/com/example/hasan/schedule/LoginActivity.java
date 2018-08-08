@@ -13,18 +13,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hasan.schedule.models.StudentModel;
+import com.example.hasan.schedule.TeacherActivity.TeacherActivity;
 import com.example.hasan.schedule.routine.RoutineActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,12 +51,22 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         if (user != null) {
-            Intent intent = new Intent(LoginActivity.this, RoutineActivity.class);
-            intent.putExtra("user_name", user.getDisplayName());
-            intent.putExtra("user_id",user.getUid());
 
-            Log.d("user_name",user.getDisplayName());
-            Log.d("user_id",user.getUid());
+            Intent intent;
+
+            if(user.getEmail().equals("post2enam@gmail.com")){
+                intent = new Intent(LoginActivity.this, TeacherActivity.class);
+                intent.putExtra("user_id",user.getUid());
+
+                Log.d("user_id",user.getUid());
+            }else{
+                intent = new Intent(LoginActivity.this, RoutineActivity.class);
+                intent.putExtra("user_name", user.getDisplayName());
+                intent.putExtra("user_id",user.getUid());
+
+                Log.d("user_name",user.getDisplayName());
+                Log.d("user_id",user.getUid());
+            }
 
             startActivity(intent);
             finish();
@@ -112,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 Log.d("teacher","teacherIntent");
 
-                                                final Intent intent = new Intent(LoginActivity.this, TeacherRoutineActivity.class);
+                                                final Intent intent = new Intent(LoginActivity.this, TeacherActivity.class);
                                                 intent.putExtra("user_id",user.getUid());
 
                                                 Log.d("user_id",user.getUid());
