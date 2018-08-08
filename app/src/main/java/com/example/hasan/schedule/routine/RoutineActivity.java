@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -339,6 +341,35 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.id_profile) {
+
+            return true;
+
+        } else if (id == R.id.id_log_out) {
+
+//
+//
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            intent.putExtra("Log_out","Log_out");
+//            startActivity(intent);
+//           finish();
+
+            return true;
+        }
+
+        return true;
     }
 
 

@@ -1,12 +1,18 @@
 package com.example.hasan.schedule.TeacherActivity;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.example.hasan.schedule.LoginActivity;
 import com.example.hasan.schedule.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class TeacherActivity extends AppCompatActivity {
 
@@ -26,12 +32,12 @@ public class TeacherActivity extends AppCompatActivity {
         if (getIntent() != null) {
 
             userId = getIntent().getStringExtra("user_id");
-            Log.d("userId",userId);
+            Log.d("userId", userId);
 
         }
 
 
-         bundle = new Bundle();
+        bundle = new Bundle();
         bundle.putString("user_id", userId);
 
         // set Fragmentclass Arguments
@@ -39,20 +45,48 @@ public class TeacherActivity extends AppCompatActivity {
         AllRoutineFragment allRoutineFragment = new AllRoutineFragment();
         allRoutineFragment.setArguments(bundle);
 
-        OwnRoutineFragment ownRoutineFragment =new OwnRoutineFragment();
+        OwnRoutineFragment ownRoutineFragment = new OwnRoutineFragment();
         ownRoutineFragment.setArguments(bundle);
-
 
 
         toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
         tabLayout = findViewById(R.id.tabLayout);
-        viewPager = (ViewPager)findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragments(allRoutineFragment,"All Routine");
-        viewPagerAdapter.addFragments(ownRoutineFragment,"Own Routine");
+        viewPagerAdapter.addFragments(allRoutineFragment, "All Routine");
+        viewPagerAdapter.addFragments(ownRoutineFragment, "Own Routine");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.id_profile) {
+
+            return true;
+
+        } else if (id == R.id.id_log_out) {
+
+//
+//
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            intent.putExtra("Log_out","Log_out");
+//            startActivity(intent);
+//           finish();
+
+            return true;
+        }
+
+        return true;
     }
 }

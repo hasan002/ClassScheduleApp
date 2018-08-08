@@ -8,6 +8,11 @@
     android:gravity="center"
     tools:context=".RegisterActivity">
 
+    <include
+        layout="@layout/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/edtTxt_name"
         android:layout_width="match_parent"
@@ -100,7 +105,7 @@
 
     <Button
         android:id="@+id/btn_save"
-        android:layout_width="120dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_margin="12dp"

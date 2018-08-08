@@ -29,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
 
+    private String Log_out;
+    private String LG ="Log_out";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +52,32 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        if (user != null) {
 
-            Intent intent;
 
-            if(user.getEmail().equals("post2enam@gmail.com")){
-                intent = new Intent(LoginActivity.this, TeacherActivity.class);
-                intent.putExtra("user_id",user.getUid());
 
-                Log.d("user_id",user.getUid());
-            }else{
-                intent = new Intent(LoginActivity.this, RoutineActivity.class);
-                intent.putExtra("user_name", user.getDisplayName());
-                intent.putExtra("user_id",user.getUid());
+            if (user != null) {
 
-                Log.d("user_name",user.getDisplayName());
-                Log.d("user_id",user.getUid());
+                Intent intent;
+
+                if (user.getEmail().equals("post2enam@gmail.com")) {
+                    intent = new Intent(LoginActivity.this, TeacherActivity.class);
+                    intent.putExtra("user_id", user.getUid());
+
+                    Log.d("user_id", user.getUid());
+                } else {
+                    intent = new Intent(LoginActivity.this, RoutineActivity.class);
+                    intent.putExtra("user_name", user.getDisplayName());
+                    intent.putExtra("user_id", user.getUid());
+
+                    Log.d("user_name", user.getDisplayName());
+                    Log.d("user_id", user.getUid());
+                }
+
+                startActivity(intent);
+                finish();
             }
 
-            startActivity(intent);
-            finish();
-        }
+
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -114,28 +121,30 @@ public class LoginActivity extends AppCompatActivity {
 
                                         if (user != null) {
 
-                                            if(email.equals("post2enam@gmail.com")){
+                                            if (email.equals("post2enam@gmail.com")) {
 
-                                                Log.d("teacher","teacherIntent");
+                                                Log.d("teacher", "teacherIntent");
 
                                                 final Intent intent = new Intent(LoginActivity.this, TeacherActivity.class);
-                                                intent.putExtra("user_id",user.getUid());
+                                                intent.putExtra("user_id", user.getUid());
 
-                                                Log.d("user_id",user.getUid());
+                                                Log.d("user_id", user.getUid());
 
                                                 startActivity(intent);
-                                            }else {
+                                                finish();
+                                            } else {
 
-                                                Log.d("student","studentIntent");
+                                                Log.d("student", "studentIntent");
 
                                                 final Intent intent = new Intent(LoginActivity.this, RoutineActivity.class);
                                                 intent.putExtra("user_name", user.getDisplayName());
-                                                intent.putExtra("user_id",user.getUid());
+                                                intent.putExtra("user_id", user.getUid());
 
-                                                Log.d("user_name",user.getDisplayName());
-                                                Log.d("user_id",user.getUid());
+                                                Log.d("user_name", user.getDisplayName());
+                                                Log.d("user_id", user.getUid());
 
                                                 startActivity(intent);
+                                                finish();
                                             }
 
 

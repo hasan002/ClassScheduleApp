@@ -5,14 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".routine.RoutineActivity"
-    android:padding="12dp">
+    >
+
+    <include
+        layout="@layout/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolBarLayout"/>
+
 
     <LinearLayout
         android:id="@+id/details_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/toolBarLayout"
         android:layout_marginTop="12dp"
         android:padding="8dp">
 
@@ -41,7 +48,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/details_layout"
         android:layout_marginTop="8dp"
-        android:padding="8dp">
+        >
 
         <org.angmarch.views.NiceSpinner
             android:id="@+id/dayOfWeek"
