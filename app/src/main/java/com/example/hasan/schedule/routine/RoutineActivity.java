@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RoutineActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    Toolbar toolbar;
 
     private List<Routine> routineList;
 
@@ -78,6 +81,10 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
             Log.d("user_id", userId);
 
         }
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
 
 
         dashNameTextView = findViewById(R.id.dashboard_name);
@@ -198,7 +205,6 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
                             Log.d("userBatchId",String.valueOf(userBatchId));
 
                             dashRegTextView.setText(registerNo);
-
                             getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
                         }
                     }
@@ -343,9 +349,12 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu,menu);
+
         return true;
     }
 
@@ -361,7 +370,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
 
 //
 //
-//            Intent intent = new Intent(this, LoginActivity.class);
+//            Intent intent = new Intent(this, StudentLoginActivity.class);
 //            intent.putExtra("Log_out","Log_out");
 //            startActivity(intent);
 //           finish();

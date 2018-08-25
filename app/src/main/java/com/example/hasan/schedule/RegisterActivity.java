@@ -24,10 +24,15 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.angmarch.views.NiceSpinner;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
 
     private FirebaseAuth firebaseAuth;
@@ -43,14 +48,52 @@ public class RegisterActivity extends AppCompatActivity {
         editText_name = findViewById(R.id.edtTxt_name);
         editText_email = findViewById(R.id.edtTxt_email);
         editText_register_no = findViewById(R.id.edtTxt_register_no);
-        editText_year = findViewById(R.id.edtTxt_year);
-        editText_semester = findViewById(R.id.edtTxt_semester);
-        editText_section = findViewById(R.id.edtTxt_section);
         editText_password = findViewById(R.id.edtTxt_password);
         editText_confirm_password = findViewById(R.id.edtTxt_confirm_passsword);
 
 
         button_save = findViewById(R.id.btn_save);
+
+
+        ArrayList<String> yearList = new ArrayList<>();
+
+        yearList.add("year");
+        yearList.add("1");
+        yearList.add("2");
+        yearList.add("3");
+        yearList.add("4");
+
+        //for dayofweek
+        spinnerYearId = findViewById(R.id.year);
+        List<String> listYearId = new LinkedList<>(yearList);
+        spinnerYearId.attachDataSource(listYearId);
+        spinnerYearId.setOnItemSelectedListener(this);
+        ArrayList<String> semesterList = new ArrayList<>();
+
+        semesterList.add("semester");
+        semesterList.add("1");
+        semesterList.add("2");
+
+        //for dayofweek
+        spinnerSemesterId = findViewById(R.id.semester);
+        List<String> listSemesterId = new LinkedList<>(semesterList);
+        spinnerSemesterId.attachDataSource(listSemesterId);
+        spinnerSemesterId.setOnItemSelectedListener(this);
+
+
+        ArrayList<String> sactionList = new ArrayList<>();
+
+        sactionList.add("saction");
+        sactionList.add("A");
+        sactionList.add("B");
+        sactionList.add("Null");
+
+
+        //for dayofweek
+        spinnerSactionId = findViewById(R.id.saction);
+        List<String> listSactionId = new LinkedList<>(sactionList);
+        spinnerSactionId.attachDataSource(listSactionId);
+        spinnerSactionId.setOnItemSelectedListener(this);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -66,9 +109,11 @@ public class RegisterActivity extends AppCompatActivity {
                 final String name = editText_name.getText().toString().trim();
                 final String email = editText_email.getText().toString().trim();
                 final String register = editText_register_no.getText().toString().trim();
-                final String year = editText_year.getText().toString().trim();
-                final String semester = editText_semester.getText().toString().trim();
-                final String section = editText_section.getText().toString().toUpperCase();
+
+                final String year = String.valueOf(yearId);
+                final String semester = String.valueOf(semesterId);
+                final String section = String.valueOf(sactionId);
+
                 String password = editText_password.getText().toString().trim();
                 String confirm_password = editText_confirm_password.getText().toString();
 
@@ -85,23 +130,19 @@ public class RegisterActivity extends AppCompatActivity {
 
                     editText_register_no.setError("Please enter register no.");
 
-                } else if (year.isEmpty()) {
+                } else if (yearId == 0) {
 
-                    editText_year.setError("Please enter your year.");
+                    spinnerYearId.setError("Please enter your year.");
 
-                } else if (Integer.parseInt(year)>4) {
+                }  else if (semesterId == 0) {
 
-                    editText_year.setError("Enter value less than 5.");
+                    spinnerSemesterId.setError("Please enter your semester.");
 
-                }else if (semester.isEmpty()) {
+                } else if (sactionId == 0) {
 
-                    editText_semester.setError("Please enter your semester.");
+                    spinnerSactionId.setError("Enter value 1 or 2.");
 
-                } else if (Integer.parseInt(semester)>2) {
-
-                    editText_year.setError("Enter value 1 or 2.");
-
-                }else if (password.isEmpty()) {
+                } else if (password.isEmpty()) {
 
                     editText_password.setError("Please enter a password");
 
@@ -113,24 +154,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                     editText_confirm_password.setError("Your passwords do not match.");
 
-                } else if (password.length() < 8) {
+                } else if (password.length() < 6) {
 
                     editText_password.setError("Please ensure your password is at least 8 digits");
 
                 } else if (password.equals(confirm_password)) {
 
                     int x = 0;
-
-                    if (year.equals("2") || year.equals("1")) {
-
-                        if (section.isEmpty()) {
-
-                            editText_section.setError("Please enter your section('A' or 'B').");
-                            x = 1;
-
-                        }
-
-                    }
 
                     if (x == 0) {
 
@@ -166,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                                     studentData.put("section", section);
 
-                                                }else{
+                                                } else {
 
                                                     studentData.put("section", "C");
                                                 }
@@ -175,10 +205,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                                                 Intent intent = new Intent(RegisterActivity.this, RoutineActivity.class);
                                                 intent.putExtra("user_name", name);
-                                                intent.putExtra("user_id",user.getUid());
+                                                intent.putExtra("user_id", user.getUid());
 
-                                                Log.d("user_name",name);
-                                                Log.d("user_id",user.getUid());
+                                                Log.d("user_name", name);
+                                                Log.d("user_id", user.getUid());
 
                                                 startActivity(intent);
                                             }
@@ -197,14 +227,43 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        switch (parent.getId()) {
+            case R.id.year:
+                yearId = position;
+                break;
+
+            case R.id.semester:
+                semesterId = position;
+                break;
+            case R.id.saction:
+                sactionId = position;
+                break;
+        }
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     private EditText editText_name;
     private EditText editText_email;
     private EditText editText_register_no;
-    private EditText editText_year;
-    private EditText editText_semester;
-    private EditText editText_section;
     private EditText editText_password;
     private EditText editText_confirm_password;
+
+    private NiceSpinner spinnerYearId;
+    private NiceSpinner spinnerSemesterId;
+    private NiceSpinner spinnerSactionId;
+
+    int yearId = 0;
+    int semesterId = 0;
+    int sactionId = 0;
 
     private Button button_save;
 }

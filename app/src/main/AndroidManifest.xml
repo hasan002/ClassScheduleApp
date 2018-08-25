@@ -20,7 +20,8 @@
         <activity android:name=".routine.RoutineActivity" />
         <activity android:name=".TeacherRoutineActivity" />
         <activity android:name=".TeacherOwnRoutine" />
-        <activity android:name=".TeacherActivity.TeacherActivity"></activity>
+        <activity android:name=".TeacherActivity.TeacherActivity" />
+        <activity android:name=".StudentLoginActivity"></activity>
     </application>
 
 </manifest>

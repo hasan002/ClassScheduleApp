@@ -48,37 +48,32 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edtTxt_year"
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:layout_margin="12dp"
-            android:hint="year"
-            android:inputType="number"
-            android:background="@drawable/border_style"/>
+            android:background="@drawable/border_style"
+            android:textAlignment="center" />
 
-        <EditText
-            android:id="@+id/edtTxt_semester"
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/semester"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:layout_margin="12dp"
-            android:hint="semester"
-            android:inputType="number"
-            android:background="@drawable/border_style"/>
-        <EditText
-            android:id="@+id/edtTxt_section"
+            android:background="@drawable/border_style"
+            android:textAlignment="center" />
+
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/saction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:layout_margin="12dp"
-            android:hint="section"
-            android:inputType="textPersonName"
-            android:background="@drawable/border_style"/>
+            android:background="@drawable/border_style"
+            android:textAlignment="center" />
     </LinearLayout>
 
 
