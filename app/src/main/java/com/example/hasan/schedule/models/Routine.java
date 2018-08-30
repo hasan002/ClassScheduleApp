@@ -1,4 +1,4 @@
-package com.example.hasan.schedule;
+package com.example.hasan.schedule.models;
 
 public class Routine {
 

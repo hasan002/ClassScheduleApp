@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.hasan.schedule.models.CourseModel;
+import com.example.hasan.schedule.models.Routine;
 import com.example.hasan.schedule.models.RoutineModel;
 import com.example.hasan.schedule.models.TeacherDataModel;
 import com.example.hasan.schedule.models.TeacherModel;

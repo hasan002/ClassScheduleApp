@@ -1,5 +1,6 @@
 package com.example.hasan.schedule.routine;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +15,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.example.hasan.schedule.LoginActivity;
 import com.example.hasan.schedule.R;
-import com.example.hasan.schedule.Routine;
+import com.example.hasan.schedule.models.Routine;
 import com.example.hasan.schedule.models.CourseModel;
 import com.example.hasan.schedule.models.RoutineModel;
 import com.example.hasan.schedule.models.StudentModel;
 import com.example.hasan.schedule.models.TeacherModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,7 +67,6 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
 
 
     private FirebaseDatabase firebaseDatabase;
-
     private DatabaseReference databaseReference;
     private DatabaseReference dbChildReference;
 
@@ -114,7 +116,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
         }
 
 
-        Log.d("batchId",String.valueOf(batchId));
+        Log.d("batchId", String.valueOf(batchId));
 
         ArrayList<String> dayList = new ArrayList<>();
 
@@ -158,12 +160,12 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
 
         } else {
 
-            int x=0;
+            int x = 0;
 
             if (section.equals("A")) {
 
                 x = 2;
-            } else if(section.equals("B")){
+            } else if (section.equals("B")) {
 
                 x = 1;
             }
@@ -193,16 +195,16 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
                             semester = studentModel.getSemester();
                             section = studentModel.getSection();
 
-                            Log.d("reg ",registerNo);
-                            Log.d("year",year);
-                            Log.d("semester",semester);
-                            Log.d("section",section);
+                            Log.d("reg ", registerNo);
+                            Log.d("year", year);
+                            Log.d("semester", semester);
+                            Log.d("section", section);
 
                             userBatchId = getUserBatchId();
                             batchId = userBatchId;
                             spinnerBatchId.setSelectedIndex(batchId - 1);
 
-                            Log.d("userBatchId",String.valueOf(userBatchId));
+                            Log.d("userBatchId", String.valueOf(userBatchId));
 
                             dashRegTextView.setText(registerNo);
                             getListFromFirebase(String.valueOf(batchId), String.valueOf(dayId));
@@ -353,7 +355,7 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
 
         return true;
     }
@@ -368,12 +370,11 @@ public class RoutineActivity extends AppCompatActivity implements AdapterView.On
 
         } else if (id == R.id.id_log_out) {
 
-//
-//
-//            Intent intent = new Intent(this, StudentLoginActivity.class);
-//            intent.putExtra("Log_out","Log_out");
-//            startActivity(intent);
-//           finish();
+            FirebaseAuth.getInstance().signOut();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
 
             return true;
         }

@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.hasan.schedule.R;
-import com.example.hasan.schedule.Routine;
-import com.example.hasan.schedule.models.RoutineModel;
+import com.example.hasan.schedule.models.Routine;
 
 import java.util.List;
 

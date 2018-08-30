@@ -13,16 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.hasan.schedule.R;
-import com.example.hasan.schedule.Routine;
+import com.example.hasan.schedule.models.Routine;
 import com.example.hasan.schedule.models.BatchModel;
 import com.example.hasan.schedule.models.CourseModel;
 import com.example.hasan.schedule.models.RoutineModel;
 import com.example.hasan.schedule.models.TeacherDataModel;
-import com.example.hasan.schedule.models.TeacherModel;
 import com.example.hasan.schedule.routine.RoutineListAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

@@ -1,5 +1,6 @@
 package com.example.hasan.schedule.TeacherActivity;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.hasan.schedule.LoginActivity;
 import com.example.hasan.schedule.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class TeacherActivity extends AppCompatActivity {
 
@@ -63,9 +67,8 @@ public class TeacherActivity extends AppCompatActivity {
     @Override
 
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -73,18 +76,18 @@ public class TeacherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+
         if (id == R.id.id_profile) {
 
             return true;
 
         } else if (id == R.id.id_log_out) {
 
-//
-//
-//            Intent intent = new Intent(this, StudentLoginActivity.class);
-//            intent.putExtra("Log_out","Log_out");
-//            startActivity(intent);
-//           finish();
+            FirebaseAuth.getInstance().signOut();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
 
             return true;
         }

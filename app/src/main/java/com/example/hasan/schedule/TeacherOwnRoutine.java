@@ -14,9 +14,8 @@ import android.widget.TextView;
 
 import com.example.hasan.schedule.models.BatchModel;
 import com.example.hasan.schedule.models.CourseModel;
+import com.example.hasan.schedule.models.Routine;
 import com.example.hasan.schedule.models.RoutineModel;
-import com.example.hasan.schedule.models.TeacherDataModel;
-import com.example.hasan.schedule.models.TeacherModel;
 import com.example.hasan.schedule.routine.RoutineListAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
